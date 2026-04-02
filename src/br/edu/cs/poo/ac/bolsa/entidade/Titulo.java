@@ -1,9 +1,11 @@
-package br.edu.cs.poo.ac.bolsa.entidades;
+package br.edu.cs.poo.ac.bolsa.entidade;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
-public class Titulo {
+public class Titulo implements Serializable {
     private InvestidorPessoa investidorPessoa;
     private InvestidorEmpresa investidorEmpresa;
     private Ativo ativo;
@@ -15,17 +17,58 @@ public class Titulo {
     private LocalDate dataUltimoRendimento;
     private StatusTitulo status;
 
-    public Titulo(InvestidorPessoa investidorPessoa, StatusTitulo status, LocalDate dataUltimoRendimento, LocalDate dataVencimento, BigDecimal taxaDiaria, LocalDate dataAplicacao, BigDecimal valorAtual, BigDecimal valorInvestido, Ativo ativo, InvestidorEmpresa investidorEmpresa) {
+    public Titulo(InvestidorPessoa investidorPessoa, InvestidorEmpresa investidorEmpresa,
+                  Ativo ativo, BigDecimal valorInvestido, BigDecimal valorAtual,
+                  BigDecimal taxaDiaria, LocalDate dataAplicacao, LocalDate dataVencimento,
+                  LocalDate dataUltimoRendimento, StatusTitulo status) {
         this.investidorPessoa = investidorPessoa;
-        this.status = status;
-        this.dataUltimoRendimento = dataUltimoRendimento;
-        this.dataVencimento = dataVencimento;
+        this.investidorEmpresa = investidorEmpresa;
+        this.ativo = ativo;
+        this.valorInvestido = valorInvestido;
+        this.valorAtual = valorAtual;
         this.taxaDiaria = taxaDiaria;
         this.dataAplicacao = dataAplicacao;
-        this.valorAtual = valorAtual;
-        this.valorInvestido = valorInvestido;
-        this.ativo = ativo;
-        this.investidorEmpresa = investidorEmpresa;
+        this.dataVencimento = dataVencimento;
+        this.dataUltimoRendimento = dataUltimoRendimento;
+        this.status = status;
+    }
+    public boolean render() {
+        LocalDate hoje = LocalDate.now();
+        if (status != StatusTitulo.ATIVO) {
+            return false;
+        }
+        if (!hoje.isBefore(dataVencimento)) {
+            return false;
+        }
+        if (!hoje.isAfter(dataAplicacao)){
+            return false;
+        }
+        if (dataUltimoRendimento != null && !hoje.isAfter(dataUltimoRendimento)) {
+            return false;
+        }
+        LocalDate dataBase = (dataUltimoRendimento == null) ? dataAplicacao : dataUltimoRendimento;
+        long dd = ChronoUnit.DAYS.between(dataBase, hoje);
+
+        if (dd == 0) {
+            return false;
+        }
+        BigDecimal fator = BigDecimal.ONE.add(taxaDiaria.divide(new BigDecimal("100")));
+        valorAtual = valorAtual.multiply(fator.pow((int) dd));
+        dataUltimoRendimento = hoje;
+        return true;
+    }
+    public String getNumero() {
+        String codigoAtivo = String.valueOf(ativo.getCodigo());
+        String dataFormatada = String.format("%04d%02d%02d",
+                dataAplicacao.getYear(),
+                dataAplicacao.getMonthValue(),
+                dataAplicacao.getDayOfMonth());
+
+        if (investidorPessoa != null) {
+            return "000" + investidorPessoa.getCpf() + codigoAtivo + dataFormatada + "0000";
+        } else {
+            return investidorEmpresa.getCnpj() + codigoAtivo + dataFormatada + "0000";
+        }
     }
 
     public InvestidorPessoa getInvestidorPessoa() {
@@ -107,4 +150,5 @@ public class Titulo {
     public void setStatus(StatusTitulo status) {
         this.status = status;
     }
+
 }

@@ -1,6 +1,8 @@
-package br.edu.cs.poo.ac.bolsa.entidades;
+package br.edu.cs.poo.ac.bolsa.entidade;
 
-public class Contatos {
+import java.io.Serializable;
+
+public class Contatos implements Serializable {
     private String email;
     private String telefoneFixo;
     private String telefoneCelular;
@@ -26,7 +28,7 @@ public class Contatos {
         return numeroWhatsApp;
     }
 
-    public void setNumeroWhatsap(String numeroWhatApp) {
+    public void setNumeroWhatsApp(String numeroWhatsApp) {
         this.numeroWhatsApp = numeroWhatsApp;
     }
 

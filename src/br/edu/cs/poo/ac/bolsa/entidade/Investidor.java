@@ -1,10 +1,10 @@
-package br.edu.cs.poo.ac.bolsa.entidades;
-
+package br.edu.cs.poo.ac.bolsa.entidade;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class Investidor {
+public class Investidor implements Serializable {
     private String nome;
     private Endereco endereco;
     private LocalDate dataCriacao;
@@ -25,9 +25,15 @@ public class Investidor {
         return (int) ChronoUnit.YEARS.between(dataCriacao, LocalDate.now());
     }
     public void creditarBonus(BigDecimal valor){
+        if (valor==null){
+            return;
+        }
         this.bonus = bonus.add(valor);
     }
     public void debitarBonus(BigDecimal valor){
+        if (valor==null){
+            return;
+        }
         this.bonus = bonus.subtract(valor);
     }
     public String getNome() {
