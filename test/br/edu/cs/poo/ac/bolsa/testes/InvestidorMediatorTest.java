@@ -6,8 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.edu.cesarschool.next.oo.persistenciaobjetos.CadastroObjetos;
-import br.edu.cs.poo.ac.bolsa.dao.DAOInvestidorEmpresa;
-import br.edu.cs.poo.ac.bolsa.dao.DAOInvestidorPessoa;
 import br.edu.cs.poo.ac.bolsa.entidade.Contatos;
 import br.edu.cs.poo.ac.bolsa.entidade.Endereco;
 import br.edu.cs.poo.ac.bolsa.entidade.InvestidorEmpresa;
@@ -15,7 +13,6 @@ import br.edu.cs.poo.ac.bolsa.entidade.InvestidorPessoa;
 import br.edu.cs.poo.ac.bolsa.negocio.InvestidorMediator;
 import br.edu.cs.poo.ac.bolsa.util.MensagensValidacao;
 
-import java.io.File;
 import java.time.LocalDate;
 
 
@@ -42,7 +39,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
     // ---------------------------------------------------------
 
     private Endereco criarEndereco() {
-        Endereco e = new Endereco();
+        Endereco e = new Endereco(); 
         e.setLogradouro("Rua A");
         e.setNumero("100");
         e.setCidade("Recife");
@@ -72,7 +69,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         ie.setCnpj(cnpj);
         ie.setNome("Empresa X");
         ie.setEndereco(criarEndereco());
-        ie.setDataAbertura(LocalDate.now());
+        ie.setDataAbertura(LocalDate.now());        
         ie.setContatos(criarContatosPJ());
         ie.setFaturamento(200000.0);
         return ie;
@@ -83,7 +80,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         ip.setCpf(cpf);
         ip.setNome("Fulano");
         ip.setEndereco(criarEndereco());
-        ip.setDataNascimento(LocalDate.now());
+        ip.setDataNascimento(LocalDate.now());        
         ip.setContatos(criarContatosPF());
         ip.setRenda(20000.0);
         return ip;
@@ -95,18 +92,18 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void incluirEmpresaComSucesso() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
         assertTrue(msgs.estaVazio());
-        assertNotNull(cadEmp.buscar("12345678000199"));
+        assertNotNull(cadEmp.buscar("51121160000120"));
     }
 
     @Test
     void incluirEmpresaJaExistente() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
-        cadEmp.incluir(ie, "12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
+        cadEmp.incluir(ie, "51121160000120");
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
@@ -116,8 +113,8 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void alterarEmpresaComSucesso() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
-        cadEmp.incluir(ie, "12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
+        cadEmp.incluir(ie, "51121160000120");
 
         ie.setNome("Empresa Alterada");
 
@@ -125,12 +122,12 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         assertTrue(msgs.estaVazio());
         assertEquals("Empresa Alterada",
-                ((InvestidorEmpresa) cadEmp.buscar("12345678000199")).getNome());
+                ((InvestidorEmpresa) cadEmp.buscar("51121160000120")).getNome());
     }
 
     @Test
     void alterarEmpresaNaoExistente() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
 
         MensagensValidacao msgs = mediator.alterarInvestidorEmpresa(ie);
 
@@ -140,18 +137,18 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void excluirEmpresaComSucesso() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
-        cadEmp.incluir(ie, "12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
+        cadEmp.incluir(ie, "51121160000120");
 
-        MensagensValidacao msgs = mediator.excluirInvestidorEmpresa("12345678000199");
+        MensagensValidacao msgs = mediator.excluirInvestidorEmpresa("51121160000120");
 
         assertTrue(msgs.estaVazio());
-        assertNull(cadEmp.buscar("12345678000199"));
+        assertNull(cadEmp.buscar("51121160000120"));
     }
 
     @Test
     void excluirEmpresaNaoExistente() {
-        MensagensValidacao msgs = mediator.excluirInvestidorEmpresa("12345678000199");
+        MensagensValidacao msgs = mediator.excluirInvestidorEmpresa("51121160000120");
 
         assertFalse(msgs.estaVazio());
         assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa n�o existente."));
@@ -159,10 +156,10 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void buscarEmpresaComSucesso() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
-        cadEmp.incluir(ie, "12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
+        cadEmp.incluir(ie, "51121160000120");
 
-        assertNotNull(mediator.buscarInvestidorEmpresa("12345678000199"));
+        assertNotNull(mediator.buscarInvestidorEmpresa("51121160000120"));
     }
 
     @Test
@@ -176,18 +173,18 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void incluirPessoaComSucesso() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
         assertTrue(msgs.estaVazio());
-        assertNotNull(cadPes.buscar("12345678901"));
+        assertNotNull(cadPes.buscar("80052380610"));
     }
 
     @Test
     void incluirPessoaJaExistente() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
-        cadPes.incluir(ip, "12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
+        cadPes.incluir(ip, "80052380610");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
@@ -197,8 +194,8 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void alterarPessoaComSucesso() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
-        cadPes.incluir(ip, "12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
+        cadPes.incluir(ip, "80052380610");
 
         ip.setNome("Fulano Alterado");
 
@@ -206,12 +203,12 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         assertTrue(msgs.estaVazio());
         assertEquals("Fulano Alterado",
-                ((InvestidorPessoa) cadPes.buscar("12345678901")).getNome());
+                ((InvestidorPessoa) cadPes.buscar("80052380610")).getNome());
     }
 
     @Test
     void alterarPessoaNaoExistente() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
 
         MensagensValidacao msgs = mediator.alterarInvestidorPessoa(ip);
 
@@ -221,18 +218,18 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void excluirPessoaComSucesso() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
-        cadPes.incluir(ip, "12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
+        cadPes.incluir(ip, "80052380610");
 
-        MensagensValidacao msgs = mediator.excluirInvestidorPessoa("12345678901");
+        MensagensValidacao msgs = mediator.excluirInvestidorPessoa("80052380610");
 
         assertTrue(msgs.estaVazio());
-        assertNull(cadPes.buscar("12345678901"));
+        assertNull(cadPes.buscar("80052380610"));
     }
 
     @Test
     void excluirPessoaNaoExistente() {
-        MensagensValidacao msgs = mediator.excluirInvestidorPessoa("12345678901");
+        MensagensValidacao msgs = mediator.excluirInvestidorPessoa("80052380610");
 
         assertFalse(msgs.estaVazio());
         assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa n�o existente."));
@@ -240,10 +237,10 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void buscarPessoaComSucesso() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
-        cadPes.incluir(ip, "12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
+        cadPes.incluir(ip, "80052380610");
 
-        assertNotNull(mediator.buscarInvestidorPessoa("12345678901"));
+        assertNotNull(mediator.buscarInvestidorPessoa("80052380610"));
     }
 
     @Test
@@ -257,7 +254,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void enderecoSemLogradouro() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
         ip.getEndereco().setLogradouro("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
@@ -267,7 +264,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void enderecoSemNumero() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
         ie.getEndereco().setNumero("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
@@ -277,7 +274,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void enderecoSemCidade() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
         ip.getEndereco().setCidade("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
@@ -287,7 +284,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void enderecoSemEstado() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
         ie.getEndereco().setEstado("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
@@ -297,7 +294,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void enderecoSemPais() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
         ip.getEndereco().setPais("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
@@ -311,7 +308,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void contatosEmailInvalido() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
         ip.getContatos().setEmail("email-invalido");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
@@ -321,7 +318,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void contatosSemTelefone() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
         ie.getContatos().setTelefoneFixo("");
         ie.getContatos().setTelefoneCelular("");
         ie.getContatos().setNumeroWhatsApp("");
@@ -333,7 +330,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void contatosTelefoneComLetras() {
-        InvestidorPessoa ip = criarPessoa("12345678901");
+        InvestidorPessoa ip = criarPessoa("80052380610");
         ip.getContatos().setTelefoneCelular("81ABC123");
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
@@ -343,7 +340,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
     @Test
     void contatosNomeParaContatoObrigatorioPJ() {
-        InvestidorEmpresa ie = criarEmpresa("12345678000199");
+        InvestidorEmpresa ie = criarEmpresa("51121160000120");
         ie.getContatos().setNomeParaContato("");
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
