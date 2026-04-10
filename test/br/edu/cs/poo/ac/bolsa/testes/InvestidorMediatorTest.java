@@ -53,7 +53,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         Contatos c = new Contatos();
         c.setEmail("empresa@teste.com");
         c.setTelefoneFixo("8133334444");
-        c.setNomeParaContato("Jo�o");
+        c.setNomeParaContato("João");
         return c;
     }
 
@@ -108,7 +108,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa j� existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa já existente."));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.alterarInvestidorEmpresa(ie);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa não existente."));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.excluirInvestidorEmpresa("51121160000120");
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Empresa não existente."));
     }
 
     @Test
@@ -189,7 +189,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa j� existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa já existente."));
     }
 
     @Test
@@ -213,7 +213,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.alterarInvestidorPessoa(ip);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa não existente."));
     }
 
     @Test
@@ -232,7 +232,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.excluirInvestidorPessoa("80052380610");
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Investidor Pessoa não existente."));
     }
 
     @Test
@@ -259,7 +259,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
-        assertTrue(msgs.getMensagens()[0].equals("Logradouro � obrigat�rio."));
+        assertTrue(msgs.getMensagens()[0].equals("Logradouro é obrigatório."));
     }
 
     @Test
@@ -269,7 +269,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
-        assertTrue(msgs.getMensagens()[0].equals("N�mero � obrigat�rio."));
+        assertTrue(msgs.getMensagens()[0].equals("Número é obrigatório."));
     }
 
     @Test
@@ -279,7 +279,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
-        assertTrue(msgs.getMensagens()[0].equals("Cidade � obrigat�rio."));
+        assertTrue(msgs.getMensagens()[0].equals("Cidade é obrigatório."));
     }
 
     @Test
@@ -289,7 +289,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
-        assertTrue(msgs.getMensagens()[0].equals("Estado � obrigat�rio."));
+        assertTrue(msgs.getMensagens()[0].equals("Estado é obrigatório."));
     }
 
     @Test
@@ -299,7 +299,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
-        assertTrue(msgs.getMensagens()[0].equals("Pa�s � obrigat�rio."));
+        assertTrue(msgs.getMensagens()[0].equals("País é obrigatório."));
     }
 
     // ---------------------------------------------------------
@@ -313,7 +313,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
-        assertTrue(msgs.getMensagens()[0].equals("E-mail inv�lido."));
+        assertTrue(msgs.getMensagens()[0].equals("E-mail inválido."));
     }
 
     @Test
@@ -335,7 +335,7 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorPessoa(ip);
 
-        assertTrue(msgs.getMensagens()[0].equals("Telefone celular deve conter apenas n�meros."));
+        assertTrue(msgs.getMensagens()[0].equals("Telefone celular deve conter apenas números."));
     }
 
     @Test
@@ -345,6 +345,6 @@ public class InvestidorMediatorTest extends TesteGenerico {
 
         MensagensValidacao msgs = mediator.incluirInvestidorEmpresa(ie);
 
-        assertTrue(msgs.getMensagens()[0].equals("Nome para contato � obrigat�rio para pessoa jur�dica."));
+        assertTrue(msgs.getMensagens()[0].equals("Nome para contato é obrigatório para pessoa jurídica."));
     }
 }

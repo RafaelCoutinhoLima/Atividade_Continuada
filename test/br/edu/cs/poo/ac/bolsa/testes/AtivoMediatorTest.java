@@ -63,7 +63,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.incluir(ativo);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Ativo j� existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Ativo já existente."));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.incluir(ativo);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("C�digo deve ser maior que zero."));
+        assertTrue(msgs.getMensagens()[0].equals("Código deve ser maior que zero."));
     }
 
     // -----------------------------
@@ -101,7 +101,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.alterar(ativo);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Ativo n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Ativo não existente."));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.alterar(ativo);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals(("Descri��o � obrigat�ria.")));
+        assertTrue(msgs.getMensagens()[0].equals(("Descrição é obrigatória.")));
     }
 
     // -----------------------------
@@ -134,7 +134,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.excluir(0);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals(("C�digo deve ser maior que zero.")));
+        assertTrue(msgs.getMensagens()[0].equals(("Código deve ser maior que zero.")));
     }
 
     @Test
@@ -142,7 +142,7 @@ public class AtivoMediatorTest extends TesteGenerico {
         MensagensValidacao msgs = mediator.excluir(1);
 
         assertFalse(msgs.estaVazio());
-        assertTrue(msgs.getMensagens()[0].equals("Ativo n�o existente."));
+        assertTrue(msgs.getMensagens()[0].equals("Ativo não existente."));
     }
 
     // -----------------------------

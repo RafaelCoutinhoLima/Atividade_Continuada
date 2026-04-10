@@ -14,7 +14,7 @@ public class InvestidorTest {
     @BeforeEach
     void setup() {
         investidor = new Investidor(
-                "Jo�o Silva",
+                "João Silva",
                 null,                // mocks simples
                 LocalDate.now().minusYears(5),
                 new BigDecimal("100.00"),      // b�nus inicial
