@@ -1,35 +1,26 @@
 package br.edu.cs.poo.ac.bolsa.dao;
+
 import br.edu.cs.poo.ac.bolsa.entidade.Ativo;
 
-public class DAOAtivo extends DAOGenerico{
-    public DAOAtivo(){
-        inicializarCadastro(Ativo.class);
+public class DAOAtivo extends DAORegistro {
+
+    public DAOAtivo() {
+        super(Ativo.class);
     }
-    public boolean incluir(Ativo ativo) {
-        if (buscar(ativo.getCodigo()) == null) {
-            cadastro.incluir(ativo, "" + ativo.getCodigo());
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public boolean alterar(Ativo ativo) {
-        if (buscar(ativo.getCodigo()) != null) {
-            cadastro.alterar(ativo, "" + ativo.getCodigo());
-            return true;
-        } else {
-            return false;
-        }
-    }
+
     public Ativo buscar(long codigo) {
-        return (Ativo) cadastro.buscar("" + codigo);
+        return (Ativo) super.buscar("" + codigo);
     }
+
+    public boolean incluir(Ativo ativo) {
+        return super.incluir(ativo);
+    }
+
+    public boolean alterar(Ativo ativo) {
+        return super.alterar(ativo);
+    }
+
     public boolean excluir(long codigo) {
-        if (buscar(codigo) != null) {
-            cadastro.excluir("" + codigo);
-            return true;
-        } else {
-            return false;
-        }
+        return super.excluir("" + codigo);
     }
 }

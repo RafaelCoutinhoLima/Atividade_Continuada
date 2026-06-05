@@ -1,19 +1,53 @@
 package br.edu.cs.poo.ac.bolsa.dao;
+
 import br.edu.cs.poo.ac.bolsa.entidade.InvestidorPessoa;
+
 public class DAOInvestidorPessoa extends DAOGenerico {
-    public DAOInvestidorPessoa(){
+
+    public DAOInvestidorPessoa() {
         inicializarCadastro(InvestidorPessoa.class);
     }
-    public void incluir(InvestidorPessoa investidor){
-        cadastro.incluir(investidor,investidor.getCpf());
-    }
-    public void alterar(InvestidorPessoa investidor){
-        cadastro.alterar(investidor,investidor.getCpf());
-    }
-    public InvestidorPessoa buscar(String cpf) {
+
+    public InvestidorPessoa buscarInvestidorPessoa(String cpf) {
         return (InvestidorPessoa) cadastro.buscar(cpf);
     }
-    public void excluir(String cpf){
-        cadastro.excluir(cpf);
+
+    public Boolean incluirInvestidorPessoa(InvestidorPessoa ip) {
+        if (buscarInvestidorPessoa(ip.getCpf()) == null) {
+            cadastro.incluir(ip, ip.getCpf());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean alterarInvestidorPessoa(InvestidorPessoa ip) {
+        if (buscarInvestidorPessoa(ip.getCpf()) != null) {
+            cadastro.alterar(ip, ip.getCpf());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean excluirInvestidorPessoa(String cpf) {
+        if (buscarInvestidorPessoa(cpf) != null) {
+            cadastro.excluir(cpf);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public InvestidorPessoa[] consultarTodos() {
+        java.io.Serializable[] todos = cadastro.buscarTodos();
+        if (todos == null) {
+            return null;
+        }
+        InvestidorPessoa[] resultado = new InvestidorPessoa[todos.length];
+        for (int i = 0; i < todos.length; i++) {
+            resultado[i] = (InvestidorPessoa) todos[i];
+        }
+        return resultado;
     }
 }
