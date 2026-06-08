@@ -1,13 +1,16 @@
 package br.edu.cs.poo.ac.bolsa.entidade;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-public class Titulo implements Serializable {
-    private InvestidorPessoa investidorPessoa;
-    private InvestidorEmpresa investidorEmpresa;
+import br.edu.cs.poo.ac.bolsa.util.Registro;
+
+public class Titulo extends Registro {
+
+    private Investidor investidor;
     private Ativo ativo;
     private BigDecimal valorInvestido;
     private BigDecimal valorAtual;
@@ -17,12 +20,14 @@ public class Titulo implements Serializable {
     private LocalDate dataUltimoRendimento;
     private StatusTitulo status;
 
-    public Titulo(InvestidorPessoa investidorPessoa, InvestidorEmpresa investidorEmpresa,
-                  Ativo ativo, BigDecimal valorInvestido, BigDecimal valorAtual,
-                  BigDecimal taxaDiaria, LocalDate dataAplicacao, LocalDate dataVencimento,
+    public Titulo() {
+    }
+
+    public Titulo(Investidor investidor, Ativo ativo,
+                  BigDecimal valorInvestido, BigDecimal valorAtual, BigDecimal taxaDiaria,
+                  LocalDate dataAplicacao, LocalDate dataVencimento,
                   LocalDate dataUltimoRendimento, StatusTitulo status) {
-        this.investidorPessoa = investidorPessoa;
-        this.investidorEmpresa = investidorEmpresa;
+        this.investidor = investidor;
         this.ativo = ativo;
         this.valorInvestido = valorInvestido;
         this.valorAtual = valorAtual;
@@ -32,59 +37,26 @@ public class Titulo implements Serializable {
         this.dataUltimoRendimento = dataUltimoRendimento;
         this.status = status;
     }
-    public boolean render() {
-        LocalDate hoje = LocalDate.now();
-        if (status != StatusTitulo.ATIVO) {
-            return false;
-        }
-        if (!hoje.isBefore(dataVencimento)) {
-            return false;
-        }
-        if (!hoje.isAfter(dataAplicacao)){
-            return false;
-        }
-        if (dataUltimoRendimento != null && !hoje.isAfter(dataUltimoRendimento)) {
-            return false;
-        }
-        LocalDate dataBase = (dataUltimoRendimento == null) ? dataAplicacao : dataUltimoRendimento;
-        long dd = ChronoUnit.DAYS.between(dataBase, hoje);
 
-        if (dd == 0) {
-            return false;
-        }
-        BigDecimal fator = BigDecimal.ONE.add(taxaDiaria.divide(new BigDecimal("100")));
-        valorAtual = valorAtual.multiply(fator.pow((int) dd));
-        dataUltimoRendimento = hoje;
-        return true;
+    @Override
+    public String getIdentificador() {
+        return getNumero();
     }
+
     public String getNumero() {
-        String codigoAtivo = String.valueOf(ativo.getCodigo());
-        String dataFormatada = String.format("%04d%02d%02d",
-                dataAplicacao.getYear(),
-                dataAplicacao.getMonthValue(),
-                dataAplicacao.getDayOfMonth());
-
-        if (investidorPessoa != null) {
-            return "000" + investidorPessoa.getCpf() + codigoAtivo + dataFormatada + "0000";
-        } else {
-            return investidorEmpresa.getCnpj() + codigoAtivo + dataFormatada + "0000";
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+        String dataFormatada = dataAplicacao.atStartOfDay().format(formatter);
+        String id = investidor.getIdentificador();
+        String idPadded = String.format("%14s", id).replace(' ', '0');
+        return idPadded + ativo.getCodigo() + dataFormatada;
     }
 
-    public InvestidorPessoa getInvestidorPessoa() {
-        return investidorPessoa;
+    public Investidor getInvestidor() {
+        return investidor;
     }
 
-    public void setInvestidorPessoa(InvestidorPessoa investidorPessoa) {
-        this.investidorPessoa = investidorPessoa;
-    }
-
-    public InvestidorEmpresa getInvestidorEmpresa() {
-        return investidorEmpresa;
-    }
-
-    public void setInvestidorEmpresa(InvestidorEmpresa investidorEmpresa) {
-        this.investidorEmpresa = investidorEmpresa;
+    public void setInvestidor(Investidor investidor) {
+        this.investidor = investidor;
     }
 
     public Ativo getAtivo() {
@@ -151,4 +123,34 @@ public class Titulo implements Serializable {
         this.status = status;
     }
 
+    public boolean render() {
+        LocalDate hoje = LocalDate.now();
+
+        if (this.status != StatusTitulo.ATIVO) return false;
+
+        if (this.dataUltimoRendimento != null &&
+                (hoje.isBefore(this.dataUltimoRendimento) || hoje.isEqual(this.dataUltimoRendimento)))
+            return false;
+
+        if (hoje.isBefore(this.dataAplicacao) || hoje.isEqual(this.dataAplicacao)) return false;
+
+        if (hoje.isAfter(this.dataVencimento) || hoje.isEqual(this.dataVencimento)) return false;
+
+        long diferencaDias;
+        if (this.dataUltimoRendimento == null) {
+            diferencaDias = ChronoUnit.DAYS.between(this.dataAplicacao, hoje);
+        } else {
+            diferencaDias = ChronoUnit.DAYS.between(this.dataUltimoRendimento, hoje);
+        }
+
+        if (diferencaDias == 0) return false;
+
+        BigDecimal taxa = this.taxaDiaria.divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP);
+        BigDecimal fator = BigDecimal.ONE.add(taxa);
+        BigDecimal fatorTotal = fator.pow((int) diferencaDias);
+        this.valorAtual = this.valorAtual.multiply(fatorTotal);
+        this.dataUltimoRendimento = hoje;
+
+        return true;
+    }
 }

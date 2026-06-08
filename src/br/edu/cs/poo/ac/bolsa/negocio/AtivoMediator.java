@@ -7,7 +7,7 @@ import br.edu.cs.poo.ac.bolsa.util.MensagensValidacao;
 public class AtivoMediator {
     private static AtivoMediator instancia;
     private DAOAtivo dao = new DAOAtivo();
-    private AtivoMediator(){
+    public AtivoMediator(){
     }
     public static AtivoMediator getInstancia(){
         if(instancia == null){

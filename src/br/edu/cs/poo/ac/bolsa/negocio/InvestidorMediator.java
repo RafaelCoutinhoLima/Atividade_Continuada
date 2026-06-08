@@ -213,4 +213,21 @@ public class InvestidorMediator {
         Ordenador.ordenar((Comparavel[]) investidores, comparador);
         return investidores;
     }
+    public Investidor buscarInvestidor(String identificador) {
+        if (ValidadorCpfCnpj.validarCpf(identificador) == null) {
+            return buscarInvestidorPessoa(identificador);
+        }
+        if (ValidadorCpfCnpj.validarCnpj(identificador) == null) {
+            return buscarInvestidorEmpresa(identificador);
+        }
+        return null;
+    }
+
+    public MensagensValidacao alterarInvestidor(Investidor investidor) {
+        if (investidor instanceof InvestidorPessoa) {
+            return alterarInvestidorPessoa((InvestidorPessoa) investidor);
+        } else {
+            return alterarInvestidorEmpresa((InvestidorEmpresa) investidor);
+        }
+    }
 }

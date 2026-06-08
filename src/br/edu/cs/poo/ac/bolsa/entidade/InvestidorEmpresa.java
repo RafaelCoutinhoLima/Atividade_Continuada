@@ -34,4 +34,13 @@ public class InvestidorEmpresa extends Investidor {
     public void setFaturamento(double faturamento) {
         this.faturamento = faturamento;
     }
+    @Override
+    public String getIdentificador() {
+        return cnpj;
+    }
+
+    @Override
+    public BigDecimal getEntradaFinanceira() {
+        return new BigDecimal(faturamento);
+    }
 }

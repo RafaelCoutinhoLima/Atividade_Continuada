@@ -2,7 +2,11 @@ package br.edu.cs.poo.ac.bolsa.testes;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import br.edu.cs.poo.ac.bolsa.entidade.FaixaRenda;
 import br.edu.cs.poo.ac.bolsa.entidade.Investidor;
+import br.edu.cs.poo.ac.bolsa.entidade.InvestidorPessoa;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,17 +17,20 @@ public class InvestidorTest {
 
     @BeforeEach
     void setup() {
-        investidor = new Investidor(
+        investidor = new InvestidorPessoa(
                 "João Silva",
                 null,                // mocks simples
                 LocalDate.now().minusYears(5),
-                new BigDecimal("100.00"),      // b�nus inicial
-                null
+                new BigDecimal("100.00"),      // bônus inicial
+                null,
+                "11111111111",
+                10000.0,
+                FaixaRenda.PREMIUM
         );
     }
 
     // ---------------------------------------------------------
-    // TESTES DO M�TODO creditarBonus
+    // TESTES DO MÉTODO creditarBonus
     // ---------------------------------------------------------
 
     @Test
@@ -48,7 +55,7 @@ public class InvestidorTest {
     }
 
     // ---------------------------------------------------------
-    // TESTES DO M�TODO debitarBonus
+    // TESTES DO MÉTODO debitarBonus
     // ---------------------------------------------------------
 
     @Test
@@ -73,7 +80,7 @@ public class InvestidorTest {
     }
 
     // ---------------------------------------------------------
-    // TESTE EXTRA: Garantir que n�o quebra com valores grandes
+    // TESTE EXTRA: Garantir que não quebra com valores grandes
     // ---------------------------------------------------------
 
     @Test

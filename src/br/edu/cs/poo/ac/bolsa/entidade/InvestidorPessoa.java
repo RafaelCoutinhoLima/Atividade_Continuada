@@ -60,4 +60,12 @@ public class InvestidorPessoa extends Investidor implements Comparavel {
         InvestidorPessoa outro = (InvestidorPessoa) comp;
         return this.getNome().compareTo(outro.getNome());
     }
+    @Override
+    public String getIdentificador() {
+        return cpf;
+    }
+    @Override
+    public BigDecimal getEntradaFinanceira() {
+        return new BigDecimal(renda);
+    }
 }

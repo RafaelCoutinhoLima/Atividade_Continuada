@@ -5,15 +5,19 @@ import java.util.List;
 
 public class MensagensValidacao {
     private List<String> mensagens = new ArrayList<String>();
+
     public void adicionar(String mensagem) {
         mensagens.add(mensagem);
     }
+
     public void adicionar(MensagensValidacao lista) {
         mensagens.addAll(lista.mensagens);
     }
+
     public boolean estaVazio() {
         return mensagens.isEmpty();
     }
+
     public String[] getMensagens() {
         String[] arr = new String[mensagens.size()];
         int i = 0;
@@ -22,5 +26,14 @@ public class MensagensValidacao {
             i++;
         }
         return arr;
+    }
+
+    public boolean contem(String texto) {
+        for (String mensagem : mensagens) {
+            if (mensagem.contains(texto)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
